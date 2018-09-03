@@ -30,10 +30,10 @@ class FormContainer extends React.Component {
   }
 
 
-  changestepIndex = (change = 1) => {
+  changeStep = (change = 1, length) => {
     this.setState({
       stepIndex: this.state.stepIndex + change,
-      completed: change > 0 ? this.state.completed + 34 : this.state.completed - 34
+      completed: change > 0 ? this.state.completed + (100/length) : this.state.completed - (100/length)
     })
   }
 
@@ -64,23 +64,26 @@ class FormContainer extends React.Component {
     return (
       <Paper className={this.props.classes.root} elevation={2}>
         <ProgressBar value={this.state.completed} />
-        {this.state.completed !== 100 && formElements[this.state.stepIndex]}
-
+        {
+          this.state.completed !== 100 && formElements[this.state.stepIndex]
+        }
         {
           this.state.stepIndex > 0 && 
           this.state.completed !== 100 &&
-          <Button onClick={this.changestepIndex.bind(null, -1)}>Previous</Button>
+          <Button onClick={this.changeStep.bind(null, -1, formElements.length)}>Previous</Button>
         }
-
-        {this.state.stepIndex < formElements.length - 1 &&
+        {
+          this.state.stepIndex < formElements.length - 1 &&
           this.state.completed !== 100 &&
-          <Button onClick={this.changestepIndex.bind(null, 1)}>Next</Button>
+          <Button onClick={this.changeStep.bind(null, 1, formElements.length)}>Next</Button>
         } 
-        { this.state.stepIndex === formElements.length - 1 &&
+        { 
+          this.state.stepIndex === formElements.length - 1 &&
           this.state.completed !== 100 &&
           <Button onClick={this.submitForm}>Submit</Button> 
         }
-        { this.state.completed === 100 &&
+        { 
+          this.state.completed === 100 &&
           <Summary formData={this.state.formData} />
         }
       </Paper>

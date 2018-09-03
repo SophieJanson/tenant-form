@@ -14,7 +14,7 @@ class ProgressBar extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <LinearProgress variant="determinate" value={this.props.completed} />
+        <LinearProgress variant="determinate" value={this.props.value} />
       </div>
     );
   }
@@ -22,7 +22,7 @@ class ProgressBar extends React.Component {
 
 ProgressBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  completed: PropTypes.number.isRequired
+  value: PropTypes.number.isRequired
 };
 
 export default withStyles(styles)(ProgressBar);

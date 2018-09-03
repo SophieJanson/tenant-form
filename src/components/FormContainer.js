@@ -25,7 +25,7 @@ class FormContainer extends React.Component {
   render() {
     return (
       <Paper className={this.props.classes.root} elevation={2}>
-        <ProgressBar completed={this.state.completed} />
+        <ProgressBar value={this.state.completed} />
         <Name onChange={this.onChangeFieldHandler} />
         <ContactDetails onChange={this.onChangeFieldHandler} />
         <Salary onChange={this.onChangeFieldHandler} value={this.state.salary} />

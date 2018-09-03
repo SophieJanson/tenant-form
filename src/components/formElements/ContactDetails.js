@@ -1,13 +1,16 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
 
 export default function ContactDetails(props) {
+  const onChangeHandler = (event) => {
+    props.onChange(event)
+  }
+
   return (
-    <FormControl onChange={props.onChange}>
+    <form onChange={onChangeHandler}>
       <TextField name="email" type="email" label="Email address" value={props.emailValue} required /> 
       <TextField name="phone" type="text" label="Phone number" value={props.phoneValue} required/> 
-    </FormControl>
+    </form>
   )
 }
 

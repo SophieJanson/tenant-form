@@ -3,7 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 
 export default function Name(props) {
-
   return (
     <FormControl>
       <TextField 
@@ -13,7 +12,6 @@ export default function Name(props) {
         label="Full name" 
         fullWidth={true} 
         onChange={props.onChange}
-        value={props.value}
       /> 
     </FormControl>
   )

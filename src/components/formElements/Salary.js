@@ -5,8 +5,6 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
 export default function Salary(props) {
-  console.log("VALUE", props)
-  
   return (
     <FormControl>
       <RadioGroup

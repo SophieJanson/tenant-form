@@ -5,13 +5,18 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
 export default function Salary(props) {
+  const onChangeHandler = (event) => {
+    props.onChange(event)
+    props.validateStep(!!event.target.value)
+  }
+
   return (
     <FormControl>
       <RadioGroup
         aria-label="Salary Indication"
         name="salary"
         value={props.value}
-        onChange={props.onChange}
+        onChange={onChangeHandler}
         required
       >
         <FormControlLabel value="1000" control={<Radio />} label="0 - 1000" />

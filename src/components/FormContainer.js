@@ -15,7 +15,7 @@ class FormContainer extends React.Component {
       name: "",
       email: "",
       phone: "",
-      salary: "0"
+      salary: ""
     },
     stepIndex: 0
   };
@@ -37,6 +37,18 @@ class FormContainer extends React.Component {
     })
   }
 
+  validateStep = (event) => {
+    console.log(event) 
+  }
+
+  validateCurrentStep = (currentElementValue) => {
+    console.log(Object.values(currentElementValue))
+    if(typeof currentElementValue === 'object') {
+      return !Object.values(currentElementValue).includes("")
+    }
+    return currentElementValue.length ? true : false
+  }
+
   submitForm = () => {
     console.log("Woohoo, you submitted!", this.state)
     this.setState({
@@ -45,22 +57,26 @@ class FormContainer extends React.Component {
   }
 
   render() {
+    const { formData } = this.state
     const formElements = [
       <Name 
         onChange={this.onChangeFieldHandler} 
-        value={this.state.formData.name} 
+        value={formData.name} 
+        validateStep={this.validateStep}
       />,
       <ContactDetails 
         onChange={this.onChangeFieldHandler} 
-        emailValue={this.state.formData.email} 
-        phoneValue={this.state.formData.phone} 
+        value={{emailValue: formData.email, phoneValue: formData.phone}} 
+        phoneValue={formData.phone} 
+        validateStep={this.validateStep}
       />,
       <Salary   
         onChange={this.onChangeFieldHandler} 
-        value={this.state.formData.salary} 
+        value={formData.salary} 
+        validateStep={this.validateStep}
       />
     ]
-
+    console.log(this.validateCurrentStep(formElements[this.state.stepIndex].props.value))
     return (
       <Paper className={this.props.classes.root} elevation={2}>
         <ProgressBar value={this.state.completed} />
@@ -75,11 +91,13 @@ class FormContainer extends React.Component {
         {
           this.state.stepIndex < formElements.length - 1 &&
           this.state.completed !== 100 &&
+          this.validateCurrentStep(formElements[this.state.stepIndex].props.value) &&
           <Button onClick={this.changeStep.bind(null, 1, formElements.length)}>Next</Button>
         } 
         { 
           this.state.stepIndex === formElements.length - 1 &&
           this.state.completed !== 100 &&
+          this.validateCurrentStep(formElements[this.state.stepIndex].props.value) &&
           <Button onClick={this.submitForm}>Submit</Button> 
         }
         { 

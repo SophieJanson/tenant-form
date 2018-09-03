@@ -36,8 +36,8 @@ class FormContainer extends React.Component {
 
   render() {
     const formElements = [
-      <Name onChange={this.onChangeFieldHandler}/>,
-      <ContactDetails onChange={this.onChangeFieldHandler} />,
+      <Name onChange={this.onChangeFieldHandler} value={this.state.name} />,
+      <ContactDetails onChange={this.onChangeFieldHandler} email={this.state.emailValue} phone={this.state.phoneValue} />,
       <Salary onChange={this.onChangeFieldHandler} value={this.state.salary} />
     ]
 
@@ -46,8 +46,12 @@ class FormContainer extends React.Component {
         <ProgressBar value={this.state.completed} />
         {formElements[this.state.stepIndex]}
 
-        {this.state.stepIndex > 1 && <Button onClick={this.changestepIndex.bind(null, -1)}>Previous</Button>}
-        {this.state.stepIndex < formElements.length - 1 ? <Button onClick={this.changestepIndex.bind(null, 1)}>Next</Button> :
+        {this.state.stepIndex > 0 && 
+          <Button onClick={this.changestepIndex.bind(null, -1)}>Previous</Button>
+        }
+
+        {this.state.stepIndex < formElements.length - 1 ? 
+          <Button onClick={this.changestepIndex.bind(null, 1)} disabled={false}>Next</Button> :
           <Button onClick={this.submitForm}>Submit</Button>
         }
       </Paper>

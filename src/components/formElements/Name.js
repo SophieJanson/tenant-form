@@ -6,7 +6,15 @@ export default function Name(props) {
 
   return (
     <FormControl>
-      <TextField required name="name" type="text" label="Full name" onChange={props.onChange}/> 
+      <TextField 
+        required 
+        name="name" 
+        type="text" 
+        label="Full name" 
+        fullWidth={true} 
+        onChange={props.onChange}
+        value={props.value}
+      /> 
     </FormControl>
   )
 }

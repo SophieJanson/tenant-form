@@ -5,8 +5,9 @@ import ContactDetails from './formElements/ContactDetails';
 import Salary from './formElements/Salary';
 import Summary from './Summary'
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
+import { CardContent, CardActions } from '@material-ui/core';
 
 class FormContainer extends React.Component {
   state = {
@@ -26,7 +27,7 @@ class FormContainer extends React.Component {
         ...this.state.formData,
         [event.target.name]: event.target.value
       }
-    }, console.log(this.state))
+    })
   }
 
 
@@ -37,12 +38,7 @@ class FormContainer extends React.Component {
     })
   }
 
-  validateStep = (event) => {
-    console.log(event) 
-  }
-
   validateCurrentStep = (currentElementValue) => {
-    console.log(Object.values(currentElementValue))
     if(typeof currentElementValue === 'object') {
       return !Object.values(currentElementValue).includes("")
     }
@@ -50,7 +46,6 @@ class FormContainer extends React.Component {
   }
 
   submitForm = () => {
-    console.log("Woohoo, you submitted!", this.state)
     this.setState({
       completed: 100
     })
@@ -62,59 +57,73 @@ class FormContainer extends React.Component {
       <Name 
         onChange={this.onChangeFieldHandler} 
         value={formData.name} 
-        validateStep={this.validateStep}
       />,
       <ContactDetails 
         onChange={this.onChangeFieldHandler} 
         value={{emailValue: formData.email, phoneValue: formData.phone}} 
         phoneValue={formData.phone} 
-        validateStep={this.validateStep}
+        firstName={formData.name.split(' ')[0]}
       />,
       <Salary   
         onChange={this.onChangeFieldHandler} 
         value={formData.salary} 
-        validateStep={this.validateStep}
       />
     ]
-    console.log(this.validateCurrentStep(formElements[this.state.stepIndex].props.value))
+
     return (
-      <Paper className={this.props.classes.root} elevation={2}>
-        <ProgressBar value={this.state.completed} />
-        {
-          this.state.completed !== 100 && formElements[this.state.stepIndex]
-        }
-        {
-          this.state.stepIndex > 0 && 
-          this.state.completed !== 100 &&
-          <Button onClick={this.changeStep.bind(null, -1, formElements.length)}>Previous</Button>
-        }
-        {
-          this.state.stepIndex < formElements.length - 1 &&
-          this.state.completed !== 100 &&
-          this.validateCurrentStep(formElements[this.state.stepIndex].props.value) &&
-          <Button onClick={this.changeStep.bind(null, 1, formElements.length)}>Next</Button>
-        } 
-        { 
-          this.state.stepIndex === formElements.length - 1 &&
-          this.state.completed !== 100 &&
-          this.validateCurrentStep(formElements[this.state.stepIndex].props.value) &&
-          <Button onClick={this.submitForm}>Submit</Button> 
-        }
-        { 
-          this.state.completed === 100 &&
-          <Summary formData={this.state.formData} />
-        }
-      </Paper>
+      <Card className={this.props.classes.root} elevation={2}>
+        <CardContent>
+          <ProgressBar value={this.state.completed} />
+          {
+            this.state.completed !== 100 && formElements[this.state.stepIndex]
+          }
+          { 
+            this.state.completed === 100 &&
+            <Summary formData={this.state.formData} />
+          }
+          </CardContent>
+          <CardActions className={this.props.classes.actions}>
+            {
+              this.state.stepIndex > 0 && 
+              this.state.completed !== 100 &&
+              <Button className={this.props.classes.prevButton} onClick={this.changeStep.bind(null, -1, formElements.length)}>Previous</Button>
+            }
+            {
+              this.state.stepIndex < formElements.length - 1 &&
+              this.state.completed !== 100 &&
+              this.validateCurrentStep(formElements[this.state.stepIndex].props.value) &&
+              <Button className={this.props.classes.rightButton} onClick={this.changeStep.bind(null, 1, formElements.length)}>Next</Button>
+            } 
+            { 
+              this.state.stepIndex === formElements.length - 1 &&
+              this.state.completed !== 100 &&
+              this.validateCurrentStep(formElements[this.state.stepIndex].props.value) &&
+              <Button className={this.props.classes.rightButton} onClick={this.submitForm}>Submit</Button> 
+            }
+          </CardActions>
+
+      </Card>
     )
   };
 }
 
 const styles = theme => ({
   root: {
-    //paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    margin: 'auto',
+    margin: '10% auto',
+    minWidth: '60%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
+  actions: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  rightButton: {
+    marginLeft: 'auto'
+  }
 });
 
 export default withStyles(styles)(FormContainer)

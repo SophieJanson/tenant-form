@@ -5,12 +5,15 @@ export default class Summary extends React.PureComponent {
     const {name, email, phone, salary } = this.props.formData
     return(
       <div>
-        <h2>Thank you! We'll be in touch shortly.</h2>
-        <h3>Summary</h3>
-        <p>{`Your name: ${name}`}</p>
-        <p>{`Your email address: ${email}`}</p>
-        <p>{`Your phone number: ${phone}`}</p>
-        <p>{`Your salary group: ${salary}`}</p>
+        <h3>Thank you, that's all I need to know! Here's what I learned about you: </h3>
+        <p>{`Your name is ${name}.`}</p>
+        <p>{`I can reach you at ${email} or ${phone}.`}</p>
+        <p>
+          {
+            `When looking for the perfect home for you, 
+            I will look at homes that are affordable with an income of ${salary}. I'll be in touch shortly!`
+          }
+        </p>
       </div>
     )
   }
